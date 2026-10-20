@@ -1,0 +1,42 @@
+
+ RUN  v2.1.9 /home/claude/starter/todo-refactor-starter
+
+ ✓ tests/taskService.test.js > crearTarea > crea una tarea pendiente con id y título
+ ✓ tests/taskService.test.js > agregarTarea > devuelve una colección que incluye la nueva tarea al final
+ ✓ tests/taskService.test.js > agregarTarea > el resultado contiene exactamente un elemento más
+ ✓ tests/taskService.test.js > agregarTarea > no modifica el array original
+ ✓ tests/taskService.test.js > agregarTarea > funciona con una colección vacía
+ ✓ tests/taskService.test.js > buscarTarea > encuentra la tarea con un id existente
+ ✓ tests/taskService.test.js > buscarTarea > devuelve undefined con un id inexistente
+ ✓ tests/taskService.test.js > buscarTarea > devuelve undefined en una colección vacía
+ ✓ tests/taskService.test.js > obtenerPendientes / obtenerTerminadas > colección mixta: separa pendientes y terminadas
+ ✓ tests/taskService.test.js > obtenerPendientes / obtenerTerminadas > sin coincidencias devuelve un array vacío (no undefined)
+ ✓ tests/taskService.test.js > obtenerPendientes / obtenerTerminadas > colección vacía devuelve un array vacío
+ ✓ tests/taskService.test.js > obtenerPendientes / obtenerTerminadas > no altera la colección original
+ ✓ tests/taskService.test.js > cambiarEstado > cambia el estado de la tarea indicada
+ ✓ tests/taskService.test.js > cambiarEstado > vuelve a pendiente si se cambia dos veces
+ ✓ tests/taskService.test.js > cambiarEstado > no altera otra tarea
+ ✓ tests/taskService.test.js > cambiarEstado > un id inexistente conserva el contenido
+ ✓ tests/taskService.test.js > cambiarEstado > no muta el objeto original
+ ✓ tests/taskService.test.js > eliminarTarea > elimina la tarea con un id existente y conserva el orden
+ ✓ tests/taskService.test.js > eliminarTarea > un id inexistente no elimina nada
+ ✓ tests/taskService.test.js > eliminarTarea > colección vacía devuelve un array vacío
+ ✓ tests/taskService.test.js > eliminarTarea > no modifica el array original
+ ✓ tests/taskService.test.js > obtenerResumen > cuenta total, pendientes y terminadas
+ ✓ tests/taskService.test.js > obtenerResumen > colección vacía devuelve todo en cero
+ ✓ tests/taskService.test.js > filtrarTareas > 'todas' devuelve la colección completa
+ ✓ tests/taskService.test.js > filtrarTareas > 'pendientes' y 'terminadas' delegan en filter()
+ ✓ tests/taskService.test.js > filtrarTareas > un filtro desconocido devuelve todas
+ ✓ tests/taskService.test.js > siguienteId > devuelve el id mayor + 1
+ ✓ tests/taskService.test.js > siguienteId > colección vacía empieza en 1
+ ✓ tests/taskService.test.js > buscarPorTexto > encuentra tareas cuyo título contiene el texto
+ ✓ tests/taskService.test.js > buscarPorTexto > ignora mayúsculas y minúsculas
+ ✓ tests/taskService.test.js > buscarPorTexto > ignora espacios al inicio y al final
+ ✓ tests/taskService.test.js > buscarPorTexto > texto vacío devuelve todas las tareas
+ ✓ tests/taskService.test.js > buscarPorTexto > sin coincidencias devuelve un array vacío
+
+ Test Files  1 passed (1)
+      Tests  33 passed (33)
+   Start at  12:11:16
+   Duration  441ms (transform 68ms, setup 0ms, collect 51ms, tests 14ms, environment 9ms, prepare 95ms)
+
