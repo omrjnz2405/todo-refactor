@@ -83,7 +83,38 @@ describe("buscarTarea", () => {
     expect(buscarTarea([], 1)).toBeUndefined();
   });
 });
-// MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
+describe("obtenerPendientes / obtenerTerminadas", () => {
+  const mixta = [
+    { id: 1, titulo: "A", completada: false },
+    { id: 2, titulo: "B", completada: true },
+    { id: 3, titulo: "C", completada: false }
+  ];
+
+  it("colección mixta: separa pendientes y terminadas", () => {
+    expect(obtenerPendientes(mixta).map(t => t.id)).toEqual([1, 3]);
+    expect(obtenerTerminadas(mixta).map(t => t.id)).toEqual([2]);
+  });
+
+  it("sin coincidencias devuelve un array vacío (no undefined)", () => {
+    const todasTerminadas = [{ id: 1, titulo: "A", completada: true }];
+
+    expect(obtenerPendientes(todasTerminadas)).toEqual([]);
+  });
+
+  it("colección vacía devuelve un array vacío", () => {
+    expect(obtenerPendientes([])).toEqual([]);
+    expect(obtenerTerminadas([])).toEqual([]);
+  });
+
+  it("no altera la colección original", () => {
+    const copia = structuredClone(mixta);
+
+    obtenerPendientes(mixta);
+    obtenerTerminadas(mixta);
+
+    expect(mixta).toEqual(copia);
+  });
+});
 // MISIÓN 6: prueba cambio correcto, otra tarea intacta e id inexistente.
 // MISIÓN 7: prueba eliminar existente, inexistente y colección vacía.
 // MISIÓN 8: prueba obtenerResumen(), incluyendo colección vacía.
