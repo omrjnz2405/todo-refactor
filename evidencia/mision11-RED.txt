@@ -1,0 +1,82 @@
+
+ RUN  v2.1.9 /home/claude/starter/todo-refactor-starter
+
+ ❯ tests/taskService.test.js (33 tests | 5 failed) 28ms
+   × buscarPorTexto > encuentra tareas cuyo título contiene el texto 13ms
+     → buscarPorTexto is not a function
+   × buscarPorTexto > ignora mayúsculas y minúsculas 1ms
+     → buscarPorTexto is not a function
+   × buscarPorTexto > ignora espacios al inicio y al final 0ms
+     → buscarPorTexto is not a function
+   × buscarPorTexto > texto vacío devuelve todas las tareas 0ms
+     → buscarPorTexto is not a function
+   × buscarPorTexto > sin coincidencias devuelve un array vacío 0ms
+     → buscarPorTexto is not a function
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/taskService.test.js > buscarPorTexto > encuentra tareas cuyo título contiene el texto
+TypeError: buscarPorTexto is not a function
+ ❯ tests/taskService.test.js:246:12
+    244| 
+    245|   it("encuentra tareas cuyo título contiene el texto", () => {
+    246|     expect(buscarPorTexto(tareas, "requisitos").map(t => t.id)).toEqua…
+       |            ^
+    247|   });
+    248| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/taskService.test.js > buscarPorTexto > ignora mayúsculas y minúsculas
+TypeError: buscarPorTexto is not a function
+ ❯ tests/taskService.test.js:250:12
+    248| 
+    249|   it("ignora mayúsculas y minúsculas", () => {
+    250|     expect(buscarPorTexto(tareas, "Pruebas").map(t => t.id)).toEqual([…
+       |            ^
+    251|   });
+    252| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/taskService.test.js > buscarPorTexto > ignora espacios al inicio y al final
+TypeError: buscarPorTexto is not a function
+ ❯ tests/taskService.test.js:254:12
+    252| 
+    253|   it("ignora espacios al inicio y al final", () => {
+    254|     expect(buscarPorTexto(tareas, "  revisar  ").map(t => t.id)).toEqu…
+       |            ^
+    255|   });
+    256| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/taskService.test.js > buscarPorTexto > texto vacío devuelve todas las tareas
+TypeError: buscarPorTexto is not a function
+ ❯ tests/taskService.test.js:258:12
+    256| 
+    257|   it("texto vacío devuelve todas las tareas", () => {
+    258|     expect(buscarPorTexto(tareas, "")).toEqual(tareas);
+       |            ^
+    259|   });
+    260| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/taskService.test.js > buscarPorTexto > sin coincidencias devuelve un array vacío
+TypeError: buscarPorTexto is not a function
+ ❯ tests/taskService.test.js:262:12
+    260| 
+    261|   it("sin coincidencias devuelve un array vacío", () => {
+    262|     expect(buscarPorTexto(tareas, "xyz")).toEqual([]);
+       |            ^
+    263|   });
+    264| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 28 passed (33)
+   Start at  12:10:31
+   Duration  427ms (transform 42ms, setup 0ms, collect 44ms, tests 28ms, environment 1ms, prepare 63ms)
+

@@ -58,3 +58,8 @@ export function filtrarTareas(tareas, filtro) {
 export function siguienteId(tareas) {
   return tareas.reduce((max, t) => Math.max(max, t.id), 0) + 1;
 }
+
+export function buscarPorTexto(tareas, texto) {
+  const buscado = texto.trim().toLowerCase();
+  return tareas.filter(t => t.titulo.toLowerCase().includes(buscado));
+}

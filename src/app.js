@@ -12,7 +12,8 @@ import {
   eliminarTarea,
   obtenerResumen,
   filtrarTareas,
-  siguienteId
+  siguienteId,
+  buscarPorTexto
 } from "./taskService.js";
 
 const form = document.querySelector("#task-form");
@@ -20,6 +21,7 @@ const input = document.querySelector("#task-input");
 const list = document.querySelector("#task-list");
 const message = document.querySelector("#message");
 const summary = document.querySelector("#summary");
+const search = document.querySelector("#search-input");
 const filters = [...document.querySelectorAll("[data-filter]")];
 
 let tareas = [
@@ -28,6 +30,7 @@ let tareas = [
   crearTarea(3, "Refactorizar código")
 ];
 let filtro = "todas";
+let busqueda = "";
 
 function crearElementoTarea(tarea) {
   const li = document.createElement("li");
@@ -56,7 +59,8 @@ function crearElementoTarea(tarea) {
 }
 
 function render() {
-  list.replaceChildren(...filtrarTareas(tareas, filtro).map(crearElementoTarea));
+  const visibles = buscarPorTexto(filtrarTareas(tareas, filtro), busqueda);
+  list.replaceChildren(...visibles.map(crearElementoTarea));
 
   const { total, pendientes, terminadas } = obtenerResumen(tareas);
   summary.textContent = `Total: ${total} · Pendientes: ${pendientes} · Terminadas: ${terminadas}`;
@@ -90,5 +94,10 @@ filters.forEach(button => button.addEventListener("click", () => {
   filters.forEach(b => b.classList.toggle("active", b === button));
   render();
 }));
+
+search.addEventListener("input", () => {
+  busqueda = search.value;
+  render();
+});
 
 render();
