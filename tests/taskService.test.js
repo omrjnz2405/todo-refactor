@@ -66,7 +66,23 @@ describe("agregarTarea", () => {
     expect(resultado).toEqual([{ id: 1, titulo: "A", completada: false }]);
   });
 });
-// MISIÓN 4: prueba id existente e inexistente para buscarTarea().
+describe("buscarTarea", () => {
+  const tareas = [crearTarea(1, "A"), crearTarea(2, "B"), crearTarea(3, "C")];
+
+  it("encuentra la tarea con un id existente", () => {
+    const tarea = buscarTarea(tareas, 2);
+
+    expect(tarea).toEqual({ id: 2, titulo: "B", completada: false });
+  });
+
+  it("devuelve undefined con un id inexistente", () => {
+    expect(buscarTarea(tareas, 99)).toBeUndefined();
+  });
+
+  it("devuelve undefined en una colección vacía", () => {
+    expect(buscarTarea([], 1)).toBeUndefined();
+  });
+});
 // MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
 // MISIÓN 6: prueba cambio correcto, otra tarea intacta e id inexistente.
 // MISIÓN 7: prueba eliminar existente, inexistente y colección vacía.
