@@ -1,17 +1,18 @@
 /*
- * MISIÓN 9 · ADAPTADOR DE INTERFAZ
+ * ADAPTADOR DE INTERFAZ
  *
- * El DOM sólo lee eventos, delega las reglas a taskService.js y renderiza
- * el nuevo estado: evento → app.js → taskService.js → nuevo estado → render() → DOM
+ * evento → app.js → taskService.js → nuevo estado → render() → DOM
+ * Este archivo no contiene reglas de negocio: sólo lee eventos, llama al
+ * servicio y pinta el resultado.
  */
 import {
   crearTarea,
   agregarTarea,
-  obtenerPendientes,
-  obtenerTerminadas,
   cambiarEstado,
   eliminarTarea,
-  obtenerResumen
+  obtenerResumen,
+  filtrarTareas,
+  siguienteId
 } from "./taskService.js";
 
 const form = document.querySelector("#task-form");
@@ -28,23 +29,42 @@ let tareas = [
 ];
 let filtro = "todas";
 
+function crearElementoTarea(tarea) {
+  const li = document.createElement("li");
+  li.className = tarea.completada ? "task done" : "task";
+
+  const label = document.createElement("label");
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = tarea.completada;
+  checkbox.dataset.toggle = tarea.id;
+
+  const titulo = document.createElement("span");
+  titulo.className = "title";
+  titulo.textContent = tarea.titulo; // textContent: el título no se interpreta como HTML
+
+  const acciones = document.createElement("span");
+  acciones.className = "task-actions";
+  const eliminar = document.createElement("button");
+  eliminar.textContent = "Eliminar";
+  eliminar.dataset.delete = tarea.id;
+
+  label.append(checkbox, " ", titulo);
+  acciones.append(eliminar);
+  li.append(label, acciones);
+  return li;
+}
+
 function render() {
-  let visibles = tareas;
-  if (filtro === "pendientes") visibles = obtenerPendientes(tareas);
-  if (filtro === "terminadas") visibles = obtenerTerminadas(tareas);
+  list.replaceChildren(...filtrarTareas(tareas, filtro).map(crearElementoTarea));
 
-  list.innerHTML = "";
-  visibles.forEach(tarea => {
-    const li = document.createElement("li");
-    li.className = tarea.completada ? "task done" : "task";
-    li.innerHTML = `<label><input type="checkbox" data-toggle="${tarea.id}" ${tarea.completada ? "checked" : ""}>
-      <span class="title">${tarea.titulo}</span></label>
-      <span class="task-actions"><button data-delete="${tarea.id}">Eliminar</button></span>`;
-    list.appendChild(li);
-  });
+  const { total, pendientes, terminadas } = obtenerResumen(tareas);
+  summary.textContent = `Total: ${total} · Pendientes: ${pendientes} · Terminadas: ${terminadas}`;
+}
 
-  const r = obtenerResumen(tareas);
-  summary.textContent = `Total: ${r.total} · Pendientes: ${r.pendientes} · Terminadas: ${r.terminadas}`;
+function actualizar(nuevasTareas) {
+  tareas = nuevasTareas;
+  render();
 }
 
 form.addEventListener("submit", (event) => {
@@ -54,24 +74,20 @@ form.addEventListener("submit", (event) => {
     message.textContent = "Escribe un título antes de agregar.";
     return;
   }
-  const id = tareas.length ? Math.max(...tareas.map(t => t.id)) + 1 : 1;
-  tareas = agregarTarea(tareas, crearTarea(id, titulo));
   input.value = "";
   message.textContent = "";
-  render();
+  actualizar(agregarTarea(tareas, crearTarea(siguienteId(tareas), titulo)));
 });
 
 list.addEventListener("click", (event) => {
   const { toggle, delete: borrar } = event.target.dataset;
-  if (toggle !== undefined) tareas = cambiarEstado(tareas, Number(toggle));
-  if (borrar !== undefined) tareas = eliminarTarea(tareas, Number(borrar));
-  render();
+  if (toggle !== undefined) actualizar(cambiarEstado(tareas, Number(toggle)));
+  if (borrar !== undefined) actualizar(eliminarTarea(tareas, Number(borrar)));
 });
 
 filters.forEach(button => button.addEventListener("click", () => {
   filtro = button.dataset.filter;
   filters.forEach(b => b.classList.toggle("active", b === button));
-  message.textContent = "";
   render();
 }));
 

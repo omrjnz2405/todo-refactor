@@ -7,7 +7,9 @@ import {
   obtenerTerminadas,
   cambiarEstado,
   eliminarTarea,
-  obtenerResumen
+  obtenerResumen,
+  filtrarTareas,
+  siguienteId
 } from "../src/taskService.js";
 
 /*
@@ -199,11 +201,33 @@ describe("obtenerResumen", () => {
   });
 });
 
-// Los imports anteriores quedan preparados para que construyas la suite de forma incremental.
-void agregarTarea;
-void buscarTarea;
-void obtenerPendientes;
-void obtenerTerminadas;
-void cambiarEstado;
-void eliminarTarea;
-void obtenerResumen;
+// MISIÓN 10: reglas que estaban en app.js y se movieron al dominio.
+describe("filtrarTareas", () => {
+  const tareas = [
+    { id: 1, titulo: "A", completada: false },
+    { id: 2, titulo: "B", completada: true }
+  ];
+
+  it("'todas' devuelve la colección completa", () => {
+    expect(filtrarTareas(tareas, "todas")).toEqual(tareas);
+  });
+
+  it("'pendientes' y 'terminadas' delegan en filter()", () => {
+    expect(filtrarTareas(tareas, "pendientes").map(t => t.id)).toEqual([1]);
+    expect(filtrarTareas(tareas, "terminadas").map(t => t.id)).toEqual([2]);
+  });
+
+  it("un filtro desconocido devuelve todas", () => {
+    expect(filtrarTareas(tareas, "otro")).toEqual(tareas);
+  });
+});
+
+describe("siguienteId", () => {
+  it("devuelve el id mayor + 1", () => {
+    expect(siguienteId([crearTarea(1, "A"), crearTarea(7, "B")])).toBe(8);
+  });
+
+  it("colección vacía empieza en 1", () => {
+    expect(siguienteId([])).toBe(1);
+  });
+});

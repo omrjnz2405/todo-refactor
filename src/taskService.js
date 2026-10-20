@@ -1,27 +1,22 @@
 /*
  * TODO REFACTOR LAB · LÓGICA DE DOMINIO
  *
- * Completa estas funciones misión por misión. Favorece funciones que reciben
- * datos y devuelven datos, sin acceder al DOM. Ejecuta la suite después de
- * cada cambio.
+ * Funciones puras: reciben datos y devuelven datos nuevos, sin tocar el DOM
+ * ni mutar la colección recibida.
  */
 
-// MISIÓN 2
 export function crearTarea(id, titulo) {
   return { id, titulo, completada: false };
 }
 
-// MISIÓN 3
 export function agregarTarea(tareas, nuevaTarea) {
   return [...tareas, nuevaTarea];
 }
 
-// MISIÓN 4
 export function buscarTarea(tareas, id) {
   return tareas.find(t => t.id === id);
 }
 
-// MISIÓN 5
 export function obtenerPendientes(tareas) {
   return tareas.filter(t => !t.completada);
 }
@@ -30,7 +25,6 @@ export function obtenerTerminadas(tareas) {
   return tareas.filter(t => t.completada);
 }
 
-// MISIÓN 6
 export function cambiarEstado(tareas, id) {
   return tareas.map(tarea =>
     tarea.id === id
@@ -39,16 +33,28 @@ export function cambiarEstado(tareas, id) {
   );
 }
 
-// MISIÓN 7
 export function eliminarTarea(tareas, id) {
   return tareas.filter(t => t.id !== id);
 }
 
-// MISIÓN 8
 export function obtenerResumen(tareas) {
   return {
     total: tareas.length,
     pendientes: obtenerPendientes(tareas).length,
     terminadas: obtenerTerminadas(tareas).length
   };
+}
+
+const FILTROS = {
+  pendientes: obtenerPendientes,
+  terminadas: obtenerTerminadas
+};
+
+export function filtrarTareas(tareas, filtro) {
+  const aplicar = FILTROS[filtro];
+  return aplicar ? aplicar(tareas) : tareas;
+}
+
+export function siguienteId(tareas) {
+  return tareas.reduce((max, t) => Math.max(max, t.id), 0) + 1;
 }
