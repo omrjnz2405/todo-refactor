@@ -1,0 +1,10 @@
+
+ RUN  v2.1.9 /home/claude/starter/todo-refactor-starter
+
+ ✓ tests/taskService.test.js > crearTarea > crea una tarea pendiente con id y título
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  12:08:57
+   Duration  321ms (transform 28ms, setup 0ms, collect 21ms, tests 3ms, environment 0ms, prepare 78ms)
+
