@@ -115,7 +115,45 @@ describe("obtenerPendientes / obtenerTerminadas", () => {
     expect(mixta).toEqual(copia);
   });
 });
-// MISIÓN 6: prueba cambio correcto, otra tarea intacta e id inexistente.
+describe("cambiarEstado", () => {
+  it("cambia el estado de la tarea indicada", () => {
+    const tareas = [crearTarea(1, "A"), crearTarea(2, "B")];
+
+    const resultado = cambiarEstado(tareas, 1);
+
+    expect(buscarTarea(resultado, 1).completada).toBe(true);
+  });
+
+  it("vuelve a pendiente si se cambia dos veces", () => {
+    const tareas = [crearTarea(1, "A")];
+
+    const resultado = cambiarEstado(cambiarEstado(tareas, 1), 1);
+
+    expect(resultado[0].completada).toBe(false);
+  });
+
+  it("no altera otra tarea", () => {
+    const tareas = [crearTarea(1, "A"), crearTarea(2, "B")];
+
+    const resultado = cambiarEstado(tareas, 1);
+
+    expect(resultado[1]).toEqual({ id: 2, titulo: "B", completada: false });
+  });
+
+  it("un id inexistente conserva el contenido", () => {
+    const tareas = [crearTarea(1, "A"), crearTarea(2, "B")];
+
+    expect(cambiarEstado(tareas, 99)).toEqual(tareas);
+  });
+
+  it("no muta el objeto original", () => {
+    const original = crearTarea(1, "A");
+
+    cambiarEstado([original], 1);
+
+    expect(original.completada).toBe(false);
+  });
+});
 // MISIÓN 7: prueba eliminar existente, inexistente y colección vacía.
 // MISIÓN 8: prueba obtenerResumen(), incluyendo colección vacía.
 
