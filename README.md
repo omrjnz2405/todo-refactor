@@ -28,16 +28,20 @@ La primera prueba está preparada para fallar: es el punto de partida de la **Mi
 
 Responde aquí:
 
-1. ¿Dónde almacenarías ahora el estado `completada` de una tarea?
-2. ¿Qué ocurriría si mañana cada tarea necesita prioridad, fecha o responsable?
-3. ¿Qué parte del código representa datos y qué parte representa interfaz?
-4. ¿Qué comportamiento debemos conservar durante el refactor?
+1. **¿Dónde almacenarías ahora el estado `completada` de una tarea?**
+   Con tareas como strings no hay dónde guardarlo. Habría que crear otro array paralelo (`completadas[i]`) o meter marcas dentro del texto, y ambas opciones se rompen al eliminar o reordenar. Por eso conviene que cada tarea sea un objeto con su propia propiedad `completada`.
+2. **¿Qué ocurriría si mañana cada tarea necesita prioridad, fecha o responsable?**
+   Tendríamos un array paralelo por cada dato nuevo y habría que mantenerlos sincronizados a mano. Cada cambio tocaría el render, el alta y la eliminación. Con objetos sólo se agrega una propiedad.
+3. **¿Qué parte del código representa datos y qué parte representa interfaz?**
+   Datos: el array `tareas`. Interfaz: `mostrarTareas()`, `document.querySelector`, `innerHTML` y el `<li>`. En `legacy.js` ambas cosas están mezcladas en la misma función: recorrer las tareas y pintar el DOM ocurren en el mismo `for`.
+4. **¿Qué comportamiento debemos conservar durante el refactor?**
+   Que la lista muestre todas las tareas en el orden en que se agregaron, que se puedan agregar y eliminar, y que no se acepten títulos vacíos.
 
 ### Tres comportamientos observables que NO deben cambiar
 
-1. 
-2. 
-3. 
+1. Al agregar un título válido aparece una tarea nueva al final de la lista y el total aumenta en 1.
+2. Un título vacío (o sólo espacios) no se agrega y se muestra un mensaje.
+3. Al eliminar una tarea desaparece sólo esa tarea; las demás conservan su orden.
 
 ## Registro RED → GREEN → REFACTOR
 
