@@ -14,21 +14,16 @@ const message = document.querySelector("#message");
 const summary = document.querySelector("#summary");
 const filters = [...document.querySelectorAll("[data-filter]")];
 
-// Misión 1: cada tarea es un objeto con identidad (id) y estado (completada).
-let tareas = [
-  { id: 1, titulo: "Revisar requisitos", completada: false },
-  { id: 2, titulo: "Diseñar pruebas", completada: false },
-  { id: 3, titulo: "Refactorizar código", completada: false }
-];
+let tareas = ["Revisar requisitos", "Diseñar pruebas", "Refactorizar código"];
 let filtro = "todas";
 
 function render() {
   list.innerHTML = "";
-  tareas.forEach(tarea => {
+  tareas.forEach((titulo, index) => {
     const li = document.createElement("li");
     li.className = "task";
-    li.innerHTML = `<span class="title">${tarea.titulo}</span>
-      <span class="task-actions"><button data-delete="${tarea.id}">Eliminar</button></span>`;
+    li.innerHTML = `<span class="title">${titulo}</span>
+      <span class="task-actions"><button data-delete="${index}">Eliminar</button></span>`;
     list.appendChild(li);
   });
   summary.textContent = `Total: ${tareas.length}`;
@@ -41,17 +36,16 @@ form.addEventListener("submit", (event) => {
     message.textContent = "Escribe un título antes de agregar.";
     return;
   }
-  const id = tareas.length ? Math.max(...tareas.map(t => t.id)) + 1 : 1;
-  tareas.push({ id, titulo, completada: false }); // aún mutable: se refactoriza en la Misión 9
+  tareas.push(titulo); // código deliberadamente acoplado/mutable para refactorizar
   input.value = "";
   message.textContent = "";
   render();
 });
 
 list.addEventListener("click", (event) => {
-  const id = event.target.dataset.delete;
-  if (id === undefined) return;
-  tareas.splice(tareas.findIndex(t => t.id === Number(id)), 1); // se refactoriza en la Misión 9
+  const index = event.target.dataset.delete;
+  if (index === undefined) return;
+  tareas.splice(Number(index), 1); // otro punto deliberado de refactor
   render();
 });
 
