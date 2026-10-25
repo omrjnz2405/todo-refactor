@@ -8,7 +8,8 @@
 
 // MISIÓN 2
 export function crearTarea(id, titulo) {
-  return { id, titulo, completada: false };
+  // TODO: devolver { id, titulo, completada: false }
+  throw new Error("Misión 2 pendiente: implementar crearTarea()");
 }
 
 // MISIÓN 3
